@@ -1,0 +1,40 @@
+HTTP/2, kao i svi HTTP protokoli, ne pamti stanje (stateless)
+▪ HTTP semantika je ostala nepromijenjena
+▪ Metode, statusni kodovi, zaglavlja, URI i ostale elemente protokola ostaju isti
+▪ HTTP/2 klijent je kompatibilan sa HTTP 1.x poslužiteljem (kompatibilnost
+unazad vrijedi)
+▪ HTTP/1.x klijent nije kompatibilan sa serverom koji isključivo podržava HTTP/2 protokol
+(kompatibilnost unaprijed ne vrijedi)
+▪ Klijent i poslužitelj moraju koristiti novi mehanizam binarnog kodiranja kako bi
+razmijenili poruke.
+▪ Za razliku od protokola HTTP/1.x s otvorenim tekstom razgraničenog novim retkom (tzv.
+„CRLF”), sva HTTP/2 komunikacija je podijeljena na manje poruke i okvire, od kojih je svaki
+kodiran u binarnom formatu
+
+Značajne razlike HTTP/2 u odnosu na HTTP/1.1:
+▪ HTTP/2 je binarni protokol, dok HTTP/1.1 podatke prenosi kao nizove znakova
+▪ omogućeno je multipleksiranje više tokova podataka (data streams) preko jedne
+konekcije: klijent može poslati više zahtjeva, a poslužitelj može odgovarati u bilo
+kojem redoslijedu, onda kad odgovori postanu spremni
+▪ Uvedena je kompresija zaglavlja poruka koja uvelike sprječava redundantnost
+zaglavlja koja je prisutna kod ranijih verzija HTTP protokola
+▪ server push
+• poslužitelj može unaprijed poslati resurse iako ih klijent nije eksplicitno
+zatražio, pri tome poslužitelj anticipira resurse koje će klijent zatražiti te tako
+štedi Round Trip Time (RTT)
+▪ prioritizacija zahtjeva
+• klijenti mogu odrediti prioritete zahtjeva omogućavajući poslužitelju slanje
+važnijih resurse prije ostalih
+• HTTP/2 omogućuje kontrolu toka na razini veze i na razini toka podataka (data
+stream)
+• HTTP/2 definira nekoliko vrsta podatkovnih okvira (data frame):
+▪ DATA (0x0), HEADERS (0x1), PRIORITY (0x2), RST_STREAM (0x3), SETTINGS (0x4), PUSH_PROMISE
+(0x5), PING (0x6), GOAWAY (0x7), WINDOW_UPDATE (0x8), CONTINUATION (0x9)
+▪ ALTSVC (0xA) i ORIGIN (0xC), pružaju dodatne informacije o uslugama i podrijetlu resursa
+
+Kako provjeriti da li web poslužitelj podržava HTTP/2?
+▪ Otvoriti konzolu pretraživača (Chrome: CTRL+SHIFT+I)
+▪ Učitati HTTPS adresu sjedišta
+▪ U kartici „Network” potražiti redak s oznakom protokola „h2”
+▪ Prethodno uključiti logiranje (Chrome: Preserve Log)
+▪ Snimiti log (*.har)

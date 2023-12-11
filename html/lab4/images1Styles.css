@@ -1,0 +1,8 @@
+#images1 {
+    background-color: rgb(150, 134, 134);
+    padding: 2rem;
+}
+
+#images1 img {
+    margin-inline: 2px;
+}

@@ -1,0 +1,6 @@
+#grad3 {
+    width: 100vw; 
+    height: 10vh; 
+    background: linear-gradient(to bottom,  rgb(82, 79, 79),  rgb(39, 36, 36)); 
+}
+  

@@ -1,0 +1,32 @@
+Ako klijent koji podržava samo HTTP/1.x želi ostvariti višestruke paralelne
+zahtjeve kako bi povećao performanse, onda mora otvoriti višestruke TCP
+konekcije
+▪ Ova neučinkovitost je posljedica HTTP/1.x response queuing svojstva gdje
+se u jednoj konekciji odgovori serijaliziraju (FIFO) samo jedan odgovor
+može biti isporučen odjednom, unutar jedne konekcije.
+▪ Head-of-line blocking zbog prekoračenja maksimalnog broja konekcija
+jednog klijenta i poslužitelja.
+HTTP/2 multipleksiranje (1)
+▪ Klijent koji podržava HTTP/2 ne
+podliježe ovim ograničenjima
+▪ Binary framing layer
+▪ Uvodi se multipleksiranje poruka zahtjeva i odgovora. Jedna HTTP/2 poruka
+podijeljena je na međusobno neovisne okvire koji se mogu asinkrono slati i
+primati. Demultipleksiranje kod klijenta.
+Jedna TCP veza može se koristiti za slanje HTTP zahtjeva samo
+jednom poslužitelju
+▪ Za povezivanje s više poslužitelja potrebno je više TCP veza
+▪ Svi HTTP/2 zahtjevi obavljaju se putem uspostavljene TCP veze
+▪ Više HTTP/2 zahtjeva podijeljeno je u okvire i dodijeljeni su im odgovarajući
+ID-ovi toka.
+▪ Svi okviri iz više tokova šalju se asinkrono. Poslužitelj također šalje
+odgovore asinkrono. Ako jedan odgovor predugo traje, drugi ne moraju
+čekati da završi. Zahtjev i odgovor događaju se paralelno, dok klijent šalje
+okvire poslužitelj također šalje okvire natrag klijentu.
+▪ Klijent prima okvire sa poslužitelja i raspoređuje ih prema ID streama.
+Važna pozitivna svojstva mehanizma HTTP/2 multipleksiranja:
+1. Paralelno i isprepleteno slanje više zahtjeva bez blokiranja.
+2. Paralelno i isprepleteno slanje više slanje odgovora bez blokiranja.
+3. Uporaba jedne TCP veze za paralelnu isporuku više zahtjeva i odgovora.
+4. Kraće vrijeme učitavanja stranice uklanjanjem nepotrebnih kašnjenja i
+poboljšanjem korištenja raspoloživog mrežnog kapaciteta.
